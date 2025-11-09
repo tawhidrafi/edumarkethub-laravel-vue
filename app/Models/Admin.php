@@ -19,5 +19,10 @@ class Admin extends Model
         'status',
     ];
 
+    protected $casts = [
+        'registered_at' => 'datetime',
+    ];
+
+
     public $timestamps = false; // because you're using created_at manually
 }

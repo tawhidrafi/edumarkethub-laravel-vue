@@ -55,9 +55,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
 
         // Additional admin pages
-        Route::get('all-courses', [CourseController::class, 'index'])->name('admin.courses.index');
-        Route::get('all-users', [UserController::class, 'index'])->name('admin.users.index');
-        Route::get('fees', [RegistrationFeeController::class, 'index'])->name('admin.fees.index');
-        Route::get('messages', [MessageController::class, 'index'])->name('admin.messages.index');
+        Route::get('courses', [AdminController::class, 'allCourses'])->name('admin.courses');
+        Route::get('users', [AdminController::class, 'allUsers'])->name('admin.users');
+        Route::get('fees', [AdminController::class, 'fees'])->name('admin.fees');
+        Route::post('fees/{id}/approve', [AdminController::class, 'approveFee'])->name('admin.fees.approve');
+        Route::post('fees/{id}/reject', [AdminController::class, 'rejectFee'])->name('admin.fees.reject');
+        Route::get('messages', [AdminController::class, 'messages'])->name('admin.messages');
     });
 });

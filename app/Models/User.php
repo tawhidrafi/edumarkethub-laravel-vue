@@ -24,6 +24,11 @@ class User extends Authenticatable
 
     protected $hidden = ['password'];
 
+    protected $casts = [
+        'registered_at' => 'datetime',
+    ];
+
+
     // Relationships
     public function courses()
     {
