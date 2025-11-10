@@ -2,53 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
 use App\Models\Course;
 use App\Models\Message;
+use App\Models\Payment;
 use App\Models\RegistrationFee;
 use App\Models\User;
-use Hash;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
 {
     //
-    public function showLogin()
+    public function index()
     {
-        return view('admin.login');
-    }
+        $totalUsers = User::count();
+        $activeUsers = User::where('status', 'active')->count();
+        $totalCourses = Course::count();
 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'username' => 'required',
-            'password' => 'required',
-        ]);
+        // Total approved payments
+        $totalPayments = Payment::where('status', 'approved')
+            ->join('courses', 'payments.course_id', '=', 'courses.id')
+            ->sum('courses.price');
 
-        $admin = Admin::where('username', $request->username)
-            ->where('status', 'active')
-            ->first();
+        $recentUsers = User::orderBy('registered_at', 'desc')->take(5)->get();
 
-        if ($admin && Hash::check($request->password, $admin->password)) {
-            Session::put('admin_id', $admin->id);
-            Session::put('admin_name', $admin->name);
-            return redirect()->route('admin.dashboard');
-
-        }
-
-        return back()->withErrors(['username' => 'Invalid credentials.']);
-    }
-
-    public function logout()
-    {
-        Session::forget(['admin_id', 'admin_name']);
-        return redirect()->route('admin.login');
-    }
-
-    public function dashboard()
-    {
-        return view('admin.dashboard');
+        return view('admin.dashboard', compact(
+            'totalUsers',
+            'activeUsers',
+            'totalCourses',
+            'totalPayments',
+            'recentUsers'
+        ));
     }
 
     public function fees()
