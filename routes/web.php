@@ -31,7 +31,7 @@ Route::post('/logout', [UserAuthController::class, 'destroy'])->name('logout');
 
 // 
 Route::get('/all-courses', [CourseController::class, 'index'])->name('courses.index');
-Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
+Route::get('/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
 
 // Protected user routes
 Route::middleware(['auth'])->prefix('user')->group(function () {
@@ -66,7 +66,7 @@ Route::prefix('admin')->group(function () {
         // Additional admin pages
         Route::get('courses', [AdminAllCourseController::class, 'index'])->name('admin.courses');
         Route::get('users', [AdminAllUserController::class, 'index'])->name('admin.users');
-        Route::get('messages', [AdminController::class, 'messages'])->name('admin.messages');
+        Route::get('messages', [AdminController::class, 'showMessages'])->name('admin.messages');
         // Registration fees Admin Routes
         Route::get('reg-fees', [AdminRegistrationFeeController::class, 'fees'])->name('admin.fees');
         Route::post('reg-fees/{id}/approve', [AdminRegistrationFeeController::class, 'approveFee'])->name('admin.fees.approve');

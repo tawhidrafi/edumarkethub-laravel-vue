@@ -14,42 +14,41 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::with('user')
-            ->orderByDesc('created_at')
-            ->get();
+            ->latest()
+            ->paginate(perPage: 10);
 
         return view('courses.index', compact('courses'));
     }
 
-
     // Show single course
-    public function show($id)
+    public function show(Course $course)
     {
-        $course = Course::with('user')->findOrFail($id);
         $user = Auth::user();
-
         $isOwner = $user && $course->user_id === $user->id;
         $hasAccess = false;
         $hasPendingPayment = false;
+
         $totalSales = Payment::where('course_id', $course->id)
             ->where('status', 'approved')
             ->count();
-        $totalRevenue = $totalSales * $course->price;
+
+        $totalRevenue = $totalSales * ($course->price ?? 0);
+
+        $students = Payment::with('user')
+            ->where('course_id', $course->id)
+            ->where('status', 'approved')
+            ->get();
 
         if ($user && !$isOwner) {
-            $approved = Payment::where([
-                'user_id' => $user->id,
-                'course_id' => $course->id,
-                'status' => 'approved',
-            ])->exists();
+            $payment = Payment::where('user_id', $user->id)
+                ->where('course_id', $course->id)
+                ->latest()
+                ->first();
 
-            $pending = Payment::where([
-                'user_id' => $user->id,
-                'course_id' => $course->id,
-                'status' => 'pending',
-            ])->exists();
-
-            $hasAccess = $approved;
-            $hasPendingPayment = $pending;
+            if ($payment) {
+                $hasAccess = $payment->status === 'approved';
+                $hasPendingPayment = $payment->status === 'pending';
+            }
         }
 
         return view('courses.show', compact(
@@ -58,7 +57,9 @@ class CourseController extends Controller
             'hasAccess',
             'hasPendingPayment',
             'totalSales',
-            'totalRevenue'
+            'totalRevenue',
+            'students'
         ));
     }
+
 }

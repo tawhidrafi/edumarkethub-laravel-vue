@@ -45,6 +45,6 @@ class UserEarningController extends Controller
         $payment->status = $request->action === 'approve' ? 'approved' : 'rejected';
         $payment->save();
 
-        return redirect()->route('payments.manage')->with('success', 'Payment status updated.');
+        return redirect()->route('user.manage-payments')->with('success', 'Payment status updated.');
     }
 }

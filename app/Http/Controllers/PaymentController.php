@@ -54,7 +54,7 @@ class PaymentController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('courses.detail', $course->id)
+        return redirect()->route('courses.show', $course->id)
             ->with('success', 'Payment submitted successfully. Awaiting approval.');
     }
 }

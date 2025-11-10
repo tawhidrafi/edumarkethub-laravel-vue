@@ -14,7 +14,7 @@
                 @forelse ($courses as $course)
                     <div
                         class="bg-white rounded-lg shadow hover:shadow-2xl transition duration-300 flex flex-col overflow-hidden group">
-                        <a href="{{ url('/courses/detail', $course->id) }}" class="relative">
+                        <a href="{{ route('courses.show', $course->id) }}" class="relative">
                             <!-- Cover Image -->
                             <img src="{{ asset('courses/assets/img/' . $course->cover_image) }}" alt="{{ $course->name }}"
                                 class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
