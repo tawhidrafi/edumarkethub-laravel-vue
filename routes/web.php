@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AdminRegistrationFeeController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminAllUserController;
+use App\Http\Controllers\Admin\AdminAllCourseController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RegistrationFeeController;
 use App\Http\Controllers\UserController;
@@ -26,7 +29,7 @@ Route::get('/login', [UserAuthController::class, 'showLoginForm'])->name('login'
 Route::post('/login', [UserAuthController::class, 'login']);
 Route::post('/logout', [UserAuthController::class, 'destroy'])->name('logout');
 
-// Course routes (Not Fixed Yet)
+// 
 Route::get('/all-courses', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
 
@@ -47,7 +50,7 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     // Registration fee routes
     Route::get('/pay-registration-fee', [RegistrationFeeController::class, 'index'])->name('registration.fee');
     Route::post('/pay-registration-fee', [RegistrationFeeController::class, 'store'])->name('registration.fee.submit');
-    // Course Payment routes
+    //
     Route::get('/course/{course}/payment', [PaymentController::class, 'index'])->name('course.payment');
     Route::post('/course/{course}/payment', [PaymentController::class, 'store'])->name('course.payment.submit');
 });
@@ -57,17 +60,16 @@ Route::prefix('admin')->group(function () {
     Route::get('login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
     Route::post('login', [AdminAuthController::class, 'login'])->name('admin.login.post');
     Route::post('logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
-
     // Protected routes for authenticated admins
     Route::middleware('auth.admin')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
-
         // Additional admin pages
-        Route::get('courses', [AdminController::class, 'allCourses'])->name('admin.courses');
-        Route::get('users', [AdminController::class, 'allUsers'])->name('admin.users');
-        Route::get('fees', [AdminController::class, 'fees'])->name('admin.fees');
-        Route::post('fees/{id}/approve', [AdminController::class, 'approveFee'])->name('admin.fees.approve');
-        Route::post('fees/{id}/reject', [AdminController::class, 'rejectFee'])->name('admin.fees.reject');
+        Route::get('courses', [AdminAllCourseController::class, 'index'])->name('admin.courses');
+        Route::get('users', [AdminAllUserController::class, 'index'])->name('admin.users');
         Route::get('messages', [AdminController::class, 'messages'])->name('admin.messages');
+        // Registration fees Admin Routes
+        Route::get('reg-fees', [AdminRegistrationFeeController::class, 'fees'])->name('admin.fees');
+        Route::post('reg-fees/{id}/approve', [AdminRegistrationFeeController::class, 'approveFee'])->name('admin.fees.approve');
+        Route::post('reg-fees/{id}/reject', [AdminRegistrationFeeController::class, 'rejectFee'])->name('admin.fees.reject');
     });
 });
