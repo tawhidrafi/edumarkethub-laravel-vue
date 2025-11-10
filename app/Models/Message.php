@@ -16,5 +16,9 @@ class Message extends Model
         'message',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+    ];
+
     public $timestamps = false;
 }

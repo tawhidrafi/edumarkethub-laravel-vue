@@ -27,7 +27,7 @@
                             <td class="px-4 py-2">{{ $course->category }}</td>
                             <td class="px-4 py-2">{{ ucfirst($course->type) }}</td>
                             <td class="px-4 py-2">{{ $course->name }}</td>
-                            <td class="px-4 py-2">{{ $course->creator->name }}</td>
+                            <td class="px-4 py-2">{{ $course->user->name }}</td>
                             <td class="px-4 py-2">{{ $course->created_at->format('Y-m-d') }}</td>
                             <td class="px-4 py-2">{{ $course->price }}</td>
                             <td class="px-4 py-2">{{ $course->enrolled }}</td>

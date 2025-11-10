@@ -24,7 +24,7 @@ Route::post('/login', [LoginController::class, 'store']);
 Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 
 
-Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+Route::get('/all-courses', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
 
 

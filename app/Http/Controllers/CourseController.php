@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 class CourseController extends Controller
 {
     // Show all courses
+    // app/Http/Controllers/CourseController.php
+
     public function index()
     {
         $courses = Course::with('user')
@@ -17,6 +19,7 @@ class CourseController extends Controller
 
         return view('courses.index', compact('courses'));
     }
+
 
     // Show single course
     public function show($id)

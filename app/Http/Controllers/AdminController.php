@@ -83,7 +83,7 @@ class AdminController extends Controller
 
     public function allCourses()
     {
-        $courses = Course::with('creator') // Eager load creator
+        $courses = Course::with('user') // Eager load creator
             ->withCount([
                 'payments as enrolled' => function ($query) {
                     $query->where('status', 'approved');

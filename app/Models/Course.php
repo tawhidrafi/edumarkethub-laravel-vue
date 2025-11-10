@@ -26,6 +26,10 @@ class Course extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+        'created_at' => 'datetime',
+    ];
+
     // Relationships
     public function user()
     {

@@ -17,25 +17,23 @@ class UserController extends Controller
         $user = Auth::user();
 
         // Member since
-        //$member_since = $user->registered_at->format('d M Y');
+        $member_since = $user->registered_at ? $user->registered_at->format('d M Y') : null;
 
         // Courses bought
-        $bought_data = Payment::where('user_id', $user->id)
-            ->where('status', 'approved')
-            ->join('courses', 'payments.course_id', '=', 'courses.id')
-            ->selectRaw('COUNT(*) as total, SUM(courses.price) as total_spent')
+        $bought_data = Payment::join('courses', 'payments.course_id', '=', 'courses.id')
+            ->where('payments.user_id', $user->id)       // clarify table
+            ->where('payments.status', 'approved')      // clarify table
+            ->selectRaw('COUNT(payments.id) as total, SUM(courses.price) as total_spent')
             ->first();
 
         $courses_bought = $bought_data->total ?? 0;
         $total_expenses = $bought_data->total_spent ?? 0;
 
         // Courses sold
-        $sold_data = Payment::whereHas('course', function ($q) use ($user) {
-            $q->where('user_id', $user->id);
-        })
-            ->where('status', 'approved')
-            ->join('courses', 'payments.course_id', '=', 'courses.id')
-            ->selectRaw('COUNT(*) as total_sales, SUM(courses.price) as earnings')
+        $sold_data = Payment::join('courses', 'payments.course_id', '=', 'courses.id')
+            ->where('courses.user_id', $user->id)      // clarify table
+            ->where('payments.status', 'approved')
+            ->selectRaw('COUNT(payments.id) as total_sales, SUM(courses.price) as earnings')
             ->first();
 
         $courses_sold = $sold_data->total_sales ?? 0;
@@ -49,6 +47,7 @@ class UserController extends Controller
             'total_earnings'
         ));
     }
+
     public function enrolledCourses()
     {
         $user = Auth::user();
@@ -90,7 +89,7 @@ class UserController extends Controller
             ->exists();
 
         if (!$feeApproved) {
-            return redirect()->route('pay.registration.fee');
+            return redirect()->route('registration.fee');
         }
 
         return view('user.upload-course');
@@ -137,7 +136,7 @@ class UserController extends Controller
             'course_file' => $courseFileName,
         ]);
 
-        return redirect()->route('user.dashboard')->with('success', 'Course uploaded successfully!');
+        return redirect()->route('dashboard')->with('success', 'Course uploaded successfully!');
     }
 
     public function managePayments()
@@ -271,14 +270,12 @@ class UserController extends Controller
         $user->bkash_num = $request->bkash_num;
 
         if ($request->hasFile('profile_image')) {
-            // Delete old image if exists
-            if ($user->profile_image && Storage::exists('public/profile/' . $user->profile_image)) {
-                Storage::delete('public/profile/' . $user->profile_image);
-            }
-
-            $path = $request->file('profile_image')->store('public/profile');
-            $user->profile_image = basename($path);
+            $file = $request->file('profile_image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/profile', $filename);
+            $user->profile_image = $filename;
         }
+
 
         $user->save();
 

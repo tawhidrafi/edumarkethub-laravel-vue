@@ -57,7 +57,7 @@
 
             <p class="mt-4 text-center text-gray-600 text-sm">
                 Already have an account?
-                <a href="#" class="text-blue-600 hover:underline">Login here</a>
+                <a href="{{ route('login') }}" class="text-blue-600 hover:underline">Login here</a>
             </p>
         </div>
     </div>

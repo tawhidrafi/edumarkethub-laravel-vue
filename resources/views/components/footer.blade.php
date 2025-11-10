@@ -48,7 +48,7 @@
     <div class="bg-gray-800 border-t border-gray-700 py-4">
         <div class="container mx-auto px-8 flex justify-between text-gray-400 text-sm">
             <p>&copy; EduMarketHub. All Rights Reserved.</p>
-            <p>Designed by <a href="#" class="hover:text-white">Team @ 5th Semester</a></p>
+            <p>Designed by <a href="#" class="hover:text-white">Team @ 6th Semester</a></p>
         </div>
     </div>
 </footer>
