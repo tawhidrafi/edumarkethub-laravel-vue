@@ -44,7 +44,7 @@
                         class="flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded shadow transition duration-300">
                         <i class="fas fa-user"></i> Edit Profile
                     </a>
-                    <a href="#"
+                    <a href="{{ route('contact.show') }}"
                         class="flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded shadow transition duration-300">
                         <i class="fas fa-headset"></i> Contact Admin
                     </a>
