@@ -9,7 +9,7 @@
 </head>
 
 <body class="bg-gray-100 min-h-screen">
-@include('components.nav')
+@include('components.nav', ['hideLogoAndButton' => true])
     <header class="bg-white shadow-sm">
         <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
             <!-- Logo / Brand -->
@@ -63,7 +63,7 @@
     <main class="container mx-auto mt-6">
         @yield('content')
     </main>
-
+@include('components.footer')
 </body>
 
 </html>
