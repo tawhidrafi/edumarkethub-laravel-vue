@@ -3,15 +3,13 @@
         <div class="flex-1 min-w-[250px]">
             <h1 class="text-white text-2xl font-bold mb-4">EduMarketHub</h1>
             <p class="text-gray-400 leading-relaxed">
-                Accusam nonumy clita sed rebum kasd eirmod elitr. Ipsum ea lorem
-                at et diam est, tempor rebum ipsum sit ea tempor stet et
-                consetetur dolores.
+                EduMarketHub connects students and educators, making it easy to buy, sell, and share quality courses and notes. Learn, grow, and succeed with our trusted learning community.
             </p>
         </div>
 
         <div class="flex-1 min-w-[250px]">
             <h3 class="text-white mb-4">Get In Touch</h3>
-            <p><i class="fa fa-map-marker-alt mr-2"></i> Chandgaon, Chatoogram, Bangladesh</p>
+            <p><i class="fa fa-map-marker-alt mr-2"></i> Haidgaon, Patiya, Chatoogram, Bangladesh</p>
             <p><i class="fa fa-phone-alt mr-2"></i> +880 1234 141214</p>
             <p><i class="fa fa-envelope mr-2"></i> contact@edumarkethub.com</p>
             <div class="flex gap-4 mt-4">
